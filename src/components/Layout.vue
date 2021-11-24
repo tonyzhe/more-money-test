@@ -1,10 +1,17 @@
 <template>
-  <Layout><p>money.vue</p></Layout>
+  <div class="nav-wrapper">
+    <div class="content">
+      <slot/>
+
+    </div>
+
+    <Nav/>
+  </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: "Money"
+  name: "Layout"
 }
 </script>
 

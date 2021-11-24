@@ -1,76 +1,5 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
-      <p>labels.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-      <p>money.vue</p>
-    </div>
-
-    <Nav/>
-  </div>
+  <Layout><p>Labels.vue</p></Layout>
 </template>
 
 <script lang="ts">
@@ -80,14 +9,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
 
-.content {
-  flex-grow: 1;
-  overflow: auto;
-}
 </style>
