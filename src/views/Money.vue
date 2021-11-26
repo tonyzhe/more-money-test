@@ -1,22 +1,34 @@
 <template>
-  <Layout><p>money.vue</p></Layout>
+  <Layout class-prefix="layout">
+    <Tags/>
+    <Notes/>
+    <Types/>
+    <numberPad/>
+  </Layout>
 </template>
 
 <script lang="ts">
+import Tags from "@/components/Money/Tags.vue";
+import Types from "@/components/Money/Types.vue";
+import NumberPad from "@/components/Money/NumberPad.vue";
+import Notes from "@/components/Money/Notes.vue";
+
 export default {
-  name: "Money"
+  name: "Money",
+
+  components: {Tags, Notes, Types, NumberPad}
 }
 </script>
 
-<style lang="scss" scoped>
-.nav-wrapper {
+<style>
+.layout-content {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-}
 
-.content {
-  flex-grow: 1;
-  overflow: auto;
 }
+</style>
+<style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
+
 </style>
