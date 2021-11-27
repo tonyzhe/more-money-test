@@ -8,16 +8,16 @@
 </template>
 
 <script lang="ts">
-import Tags from "@/components/Money/Tags.vue";
-import Types from "@/components/Money/Types.vue";
-import NumberPad from "@/components/Money/NumberPad.vue";
-import Notes from "@/components/Money/Notes.vue";
+import Tags from '@/components/Money/Tags.vue';
+import Types from '@/components/Money/Types.vue';
+import NumberPad from '@/components/Money/NumberPad.vue';
+import Notes from '@/components/Money/Notes.vue';
 
 export default {
-  name: "Money",
+  name: 'Money',
 
   components: {Tags, Notes, Types, NumberPad}
-}
+};
 </script>
 
 <style>
