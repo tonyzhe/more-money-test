@@ -70,7 +70,8 @@ export default class NumberPad extends Vue {
 
   ok(): void {
     this.$emit('update:value', parseFloat(this.output));
-
+    this.$emit('submit');
+    this.output = '0';
   }
 }
 </script>
