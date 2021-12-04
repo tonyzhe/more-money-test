@@ -1,6 +1,6 @@
 const localStorageKeyName = 'recordList';
-const model = {
-  fetch(): RecordItem {
+const recordListModel = {
+  fetch(): RecordItem[] {
     return JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
   },
   save(data: RecordItem[]): void {
@@ -8,4 +8,4 @@ const model = {
   }
 
 };
-export {model};
+export default recordListModel;
