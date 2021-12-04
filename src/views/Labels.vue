@@ -1,13 +1,12 @@
 <template>
   <Layout>
-    <ol class="labels-wrapper">
-      <li v-for="tag in tags" :key="tag.id">
-        <router-link :to="`/labels/edit/${tag.id}/${tag.name}`">{{ tag.name }}</router-link>
-
+    <div class="labels-wrapper">
+      <router-link class="tags" :to="`/labels/edit/${tag.id}/${tag.name}`" v-for="tag in tags" :key="tag.id">
+        {{ tag.name }}
         <Icon name="right1"/>
-      </li>
+      </router-link>
 
-    </ol>
+    </div>
     <div class="createLabel-wrapper">
       <button class="createLabel" @click="createTag">新建标签</button>
     </div>
@@ -44,7 +43,7 @@ export default class Labels extends Vue {
 .labels-wrapper {
   margin-left: 15px;
 
-  > li {
+  > .tags {
     display: flex;
     justify-content: space-between;
     align-items: center;
