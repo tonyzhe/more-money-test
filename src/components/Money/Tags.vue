@@ -7,7 +7,7 @@
     <ul class="current">
       <li v-for="tag in dataSource" :key="tag"
           :class="{selected:selectedTags.indexOf(tag)>=0}"
-          @click="toggle(tag)">{{ tag }}
+          @click="toggle(tag)">{{ tag.name }}
       </li>
     </ul>
   </div>
@@ -16,14 +16,20 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import tagListModel from '@/model/tagListModel';
 
+type Tag = {
+  id: string
+  name: string
+}
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource: string[] | undefined;
-  selectedTags: string[] = [];
+  @Prop(Array) readonly dataSource: Tag[] | undefined;
+  selectedTags: Tag[] = [];
 
-  toggle(tag: string): void {
-    const index = this.selectedTags.indexOf(tag);
+  toggle(tag: Tag): void {
+    const name = this.selectedTags.map(item => item.name);
+    const index = name.indexOf(tag.name);
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     } else {
@@ -33,15 +39,20 @@ export default class Tags extends Vue {
   }
 
   createTag(): void {
-    const tagName = window.prompt('请输入标签名');
-    if (tagName === '') {
-      window.alert('标签名不能为空');
-    } else {
-      if (this.dataSource) {
-        this.$emit('update:dataSource', [...this.dataSource, tagName]);
+    const name = window.prompt('请输入标签名');
+    if (name) {
+      const message = tagListModel.create(name);
+      if (message === 'success') {
+        window.alert('添加成功');
+      } else if (message === 'duplicated') {
+        window.alert('您输入的标签重复了');
       }
+    } else {
+      window.alert('输入不能为空');
     }
   }
+
+
 }
 </script>
 

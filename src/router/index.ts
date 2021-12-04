@@ -26,10 +26,11 @@ const routes: Array<RouteConfig> = [
 
   },
   {
-    path: '/labels/edit',
+    path: '/labels/edit/:id/:name',
     name: 'EditLabels',
     component: EditLabels
   },
+
   {
     path: '/statistics',
     name: 'Statistics',

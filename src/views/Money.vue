@@ -19,6 +19,10 @@ import {Component, Watch} from 'vue-property-decorator';
 import recordListModel from '@/model/recordListModel';
 import tagListModel from '@/model/tagListModel';
 
+type Tag = {
+  id: string
+  name: string
+}
 
 const recordList = recordListModel.fetch();
 console.log(tagListModel.data);
@@ -38,7 +42,7 @@ export default class Money extends Vue {
   };
 
 
-  onUpdateTags(Tags: string[]): void {
+  onUpdateTags(Tags: Tag[]): void {
     this.record.tags = Tags;
   }
 

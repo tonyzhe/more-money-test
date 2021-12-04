@@ -2,7 +2,8 @@
   <Layout>
     <ol class="labels-wrapper">
       <li v-for="tag in tags" :key="tag.id">
-        <span>{{ tag.name }}</span>
+        <router-link :to="`/labels/edit/${tag.id}/${tag.name}`">{{ tag.name }}</router-link>
+
         <Icon name="right1"/>
       </li>
 
