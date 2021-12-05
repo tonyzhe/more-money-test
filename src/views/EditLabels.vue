@@ -1,6 +1,10 @@
 <template>
   <layout>
-
+    <div>
+      <Icon name="left"/>
+      <span></span>
+    </div>
+    <Notes filename="标签名" placeholder="nnnn"/>
   </layout>
 </template>
 

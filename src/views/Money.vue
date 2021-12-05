@@ -2,7 +2,7 @@
 
   <Layout class-prefix="layout">
     <Tags :data-source.sync="tags" @update:Value="onUpdateTags"/>
-    <Notes @update:value="onUpdateValue"/>
+    <Notes @update:value="onUpdateValue" filename="备注" placeholder="请输入具体内容"/>
     <Types :value.sync="record.types"/>
     <numberPad :value.sync="record.amount" @submit="saveRecord"/>
   </Layout>
@@ -12,7 +12,7 @@
 import Tags from '@/components/Money/Tags.vue';
 import Types from '@/components/Money/Types.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
-import Notes from '@/components/Money/Notes.vue';
+import FormItem from '@/components/Money/FormItem.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
 import recordListModel from '@/model/recordListModel';
@@ -26,7 +26,7 @@ type Tag = {
 const recordList = recordListModel.fetch();
 console.log(tagListModel.data);
 @Component({
-  components: {Tags, Notes, Types, NumberPad}
+  components: {Tags, Notes: FormItem, Types, NumberPad}
 })
 export default class Money extends Vue {
   tags = tagListModel.data;
