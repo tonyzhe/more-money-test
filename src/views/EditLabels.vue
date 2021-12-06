@@ -1,7 +1,7 @@
 <template>
   <layout>
     <div class="navBar">
-      <Icon name="left"/>
+      <Icon name="left" @click="goBack"/>
       <span>编辑标签</span>
     </div>
     <div class="form-wrapper">
@@ -9,7 +9,7 @@
     </div>
 
     <div class="button-wrapper">
-      <Button @click="removeTag(tag.id)">删除标签</Button>
+      <Button @click="removeTag()">删除标签</Button>
     </div>
   </layout>
 </template>
@@ -47,8 +47,15 @@ export default class EditLabels extends Vue {
     }
   }
 
-  removeTag(id: string): void {
-    tagListModel.remove(id);
+  removeTag(): void {
+    if (this.tag) {
+      tagListModel.remove(this.tag.id);
+      this.$router.back();
+    } else return;
+  }
+
+  goBack(): void {
+    this.$router.back();
   }
 
 
