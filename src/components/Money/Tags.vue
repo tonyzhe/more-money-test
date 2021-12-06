@@ -63,6 +63,7 @@ export default class Tags extends Vue {
   padding: 16px;
   flex-grow: 1;
   display: flex;
+  background: #fff;
 
   flex-direction: column-reverse;
 

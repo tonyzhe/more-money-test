@@ -2,7 +2,10 @@
 
   <Layout class-prefix="layout">
     <Tags :data-source.sync="tags" @update:Value="onUpdateTags"/>
-    <Notes @update:value="onUpdateValue" filename="备注" placeholder="请输入具体内容"/>
+    <div class="FormItem-wrapper">
+      <FormItem @update:value="onUpdateValue" filename="备注" placeholder="请输入具体内容"/>
+    </div>
+
     <Types :value.sync="record.types"/>
     <numberPad :value.sync="record.amount" @submit="saveRecord"/>
   </Layout>
@@ -26,7 +29,7 @@ type Tag = {
 const recordList = recordListModel.fetch();
 console.log(tagListModel.data);
 @Component({
-  components: {Tags, Notes: FormItem, Types, NumberPad}
+  components: {Tags, FormItem, Types, NumberPad}
 })
 export default class Money extends Vue {
   tags = tagListModel.data;
@@ -82,5 +85,7 @@ export default class Money extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 
-
+.FormItem-wrapper {
+  padding: 10px 0;
+}
 </style>
