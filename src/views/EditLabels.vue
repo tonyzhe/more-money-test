@@ -5,11 +5,11 @@
       <span>编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <FormItem filename="标签名" placeholder="nnnn" class="form-item-in-edit"/>
+      <FormItem :value="tag.name" filename="标签名" placeholder="请输入标签名" @update:value="updateTagName"/>
     </div>
 
     <div class="button-wrapper">
-      <Button @click="removeTag">删除标签</Button>
+      <Button @click="removeTag(tag.id)">删除标签</Button>
     </div>
   </layout>
 </template>
@@ -25,15 +25,30 @@ import Button from '@/components/Button.vue';
   components: {Button, FormItem}
 })
 export default class EditLabels extends Vue {
+  tag?: { id: string, name: string } = undefined;
+
+
   created() {
     const id = this.$route.params.id;
     tagListModel.fetch();
     const tags = tagListModel.data;
     const tag = tags.filter(t => t.id === id)[0];
+    if (tag) {
+      this.tag = tag;
+    } else {
+      this.$router.replace('/404');
+    }
   }
 
-  removeTag(): void {
-    console.log('即将删除tag');
+  updateTagName(value: string): void {
+    if (this.tag) {
+      tagListModel.update(this.tag.id, value);
+
+    }
+  }
+
+  removeTag(id: string): void {
+    tagListModel.remove(id);
   }
 
 

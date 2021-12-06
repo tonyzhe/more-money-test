@@ -1,6 +1,7 @@
 <template>
 
   <Layout class-prefix="layout">
+    {{ record }}
     <Tags :data-source.sync="tags" @update:Value="onUpdateTags"/>
     <div class="FormItem-wrapper">
       <FormItem @update:value="onUpdateValue" filename="备注" placeholder="请输入具体内容"/>
@@ -27,7 +28,7 @@ type Tag = {
 }
 
 const recordList = recordListModel.fetch();
-console.log(tagListModel.data);
+
 @Component({
   components: {Tags, FormItem, Types, NumberPad}
 })
