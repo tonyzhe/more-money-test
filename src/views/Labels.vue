@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <Layout class-prefix="label">
     <div class="labels-wrapper">
       <router-link class="tags" :to="`/labels/edit/${tag.id}/${tag.name}`" v-for="tag in tags" :key="tag.id">
         {{ tag.name }}
@@ -19,12 +19,12 @@ import {Component} from 'vue-property-decorator';
 import tagListModel from '@/model/tagListModel';
 import Button from '@/components/Button.vue';
 
-
+tagListModel.fetch();
 @Component({
   components: {Button}
 })
 export default class Labels extends Vue {
-  tags = window.tagList;
+  tags = tagListModel.data;
 
   createTag(): void {
     const name = window.prompt('请输入标签名');
@@ -40,9 +40,17 @@ export default class Labels extends Vue {
 }
 </script>
 
+<style>
+.label-content {
+  display: flex;
+  flex-direction: column;
+}
+</style>
 <style lang="scss" scoped>
 .labels-wrapper {
   margin-left: 15px;
+  flex-grow: 1;
+  overflow: auto;
 
   > .tags {
     display: flex;
@@ -71,7 +79,7 @@ export default class Labels extends Vue {
   &-wrapper {
     position: relative;
     text-align: center;
-    margin-top: 44px;
+    padding: 30px 0;
 
 
   }

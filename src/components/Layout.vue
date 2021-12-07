@@ -12,8 +12,8 @@
 <script lang="ts">
 export default {
   props: ['classPrefix'],
-  name: "Layout"
-}
+  name: 'Layout'
+};
 </script>
 
 <style lang="scss" scoped>

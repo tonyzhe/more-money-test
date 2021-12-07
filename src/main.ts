@@ -15,7 +15,7 @@ Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 Vue.component('FormItem', FormItem);
-window.tagList = tagListModel.fetch()
+
 new Vue({
   router,
   store,
