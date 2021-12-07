@@ -19,9 +19,10 @@ import {Component, Prop} from 'vue-property-decorator';
 import tagListModel from '@/model/tagListModel';
 
 type Tag = {
-  id: string
+  id: string,
   name: string
 }
+
 @Component
 export default class Tags extends Vue {
   @Prop(Array) readonly dataSource: Tag[] | undefined;
@@ -47,8 +48,6 @@ export default class Tags extends Vue {
       } else if (message === 'duplicated') {
         window.alert('您输入的标签重复了');
       }
-    } else {
-      window.alert('输入不能为空');
     }
   }
 

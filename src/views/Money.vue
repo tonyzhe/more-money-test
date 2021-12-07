@@ -1,7 +1,7 @@
 <template>
 
   <Layout class-prefix="layout">
-    {{ record }}
+    {{ recordList }}
     <Tags :data-source.sync="tags" @update:Value="onUpdateTags"/>
     <div class="FormItem-wrapper">
       <FormItem @update:value="onUpdateValue" filename="备注" placeholder="请输入具体内容"/>
@@ -26,7 +26,13 @@ type Tag = {
   id: string
   name: string
 }
-
+type RecordItem = {
+  tags: Tag[]
+  notes: string
+  types: string
+  amount: number
+  createdAt?: Date
+}
 const recordList = recordListModel.fetch();
 
 @Component({
@@ -35,10 +41,10 @@ const recordList = recordListModel.fetch();
 export default class Money extends Vue {
   tags = tagListModel.data;
   recordList = recordList;
-  record = {
+  record: RecordItem = {
     tags: [],
     notes: '',
-    types: '+',
+    types: '-',
     amount: 0,
     createdAt: new Date(),
 
@@ -59,7 +65,7 @@ export default class Money extends Vue {
   }
 
   saveRecord(): void {
-    const record2 = JSON.parse(JSON.stringify(this.record));
+    const record2 = recordListModel.clone(this.record);
     record2.createdAt = new Date();
 
     this.recordList.push(record2);
@@ -69,7 +75,7 @@ export default class Money extends Vue {
   @Watch('recordList')
   onRecordListChanged(): void {
     recordListModel
-      .save(this.recordList);
+      .save();
   }
 
 
