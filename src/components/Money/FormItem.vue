@@ -3,7 +3,7 @@
     <label class="form-item">
       <span class="name">{{ this.filename }}</span>
       <input type="text" :value="value"
-             @input="onValueChanged($event.target.value)"
+             @change="onValueChanged($event.target.value)"
              :placeholder="placeholder">
     </label>
   </div>

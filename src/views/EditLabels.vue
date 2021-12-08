@@ -17,9 +17,10 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tagListModel from '@/model/tagListModel';
+
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
+import store from '@/store/index2';
 
 @Component({
   components: {Button, FormItem}
@@ -28,10 +29,9 @@ export default class EditLabels extends Vue {
   tag?: { id: string, name: string } = undefined;
 
 
-  created() {
+  created(): void {
     const id = this.$route.params.id;
-    tagListModel.fetch();
-    const tags = tagListModel.data;
+    const tags = store.tagList;
     const tag = tags.filter(t => t.id === id)[0];
     if (tag) {
       this.tag = tag;
@@ -42,15 +42,19 @@ export default class EditLabels extends Vue {
 
   updateTagName(value: string): void {
     if (this.tag) {
-      tagListModel.update(this.tag.id, value);
+      store.updateTag(this.tag.id, value);
 
     }
   }
 
   removeTag(): void {
     if (this.tag) {
-      tagListModel.remove(this.tag.id);
-      this.$router.back();
+      if (store.removeTag(this.tag.id)) {
+        this.$router.back();
+      } else {
+        window.alert('删除失败');
+      }
+
     } else return;
   }
 

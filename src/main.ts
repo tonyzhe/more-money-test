@@ -7,8 +7,7 @@ import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import Icon from '@/components/Icon.vue';
 import FormItem from '@/components/Money/FormItem.vue';
-import Button from '@/components/Button.vue';
-import tagListModel from '@/model/tagListModel';
+
 
 Vue.config.productionTip = false;
 Vue.component('Nav', Nav);
