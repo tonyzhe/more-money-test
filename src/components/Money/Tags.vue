@@ -1,10 +1,12 @@
 <template>
+
   <div class="tags">
+
     <div class="new">
       <button @click="createTag">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="tag in dataSource" :key="tag.id"
+      <li v-for="tag in tags " :key="tag.id"
           :class="{selected:selectedTags.indexOf(tag)>=0}"
           @click="toggle(tag)">{{ tag.name }}
       </li>
@@ -14,9 +16,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import store from '@/store/index2';
-
 
 
 type Tag = {
@@ -26,7 +27,8 @@ type Tag = {
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource: Tag[] | undefined;
+  //require:true则是通知vue该属性必须传值，否则我就报错
+  tags = store.tagList;
   selectedTags: Tag[] = [];
 
   toggle(tag: Tag): void {
