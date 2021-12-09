@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-import store from '@/store/index2';
+
+import {Component, Mixins} from 'vue-property-decorator';
+import tagHelper from '@/mixins/tagHelper';
 
 
 type Tag = {
@@ -25,11 +25,21 @@ type Tag = {
   name: string
 }
 
-@Component
-export default class Tags extends Vue {
+@Component({
+  computed: {
+    tags() {
+      return this.$store.state.tagList;
+    }
+  }
+})
+export default class Tags extends Mixins(tagHelper) {
   //require:true则是通知vue该属性必须传值，否则我就报错
-  tags = store.tagList;
+
   selectedTags: Tag[] = [];
+
+  created(): void {
+    this.$store.commit('fetchTags');
+  }
 
   toggle(tag: Tag): void {
     const name = this.selectedTags.map(item => item.name);
@@ -40,12 +50,6 @@ export default class Tags extends Vue {
       this.selectedTags.push(tag);
     }
     this.$emit('update:Value', this.selectedTags);
-  }
-
-  createTag(): void {
-    const name = window.prompt('请输入标签名');
-    if (name)
-      store.createTag(name);
   }
 
 

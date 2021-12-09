@@ -72,11 +72,16 @@ export default class Money extends Vue {
 </script>
 
 <style>
+/* eslint-disable no-alert, no-console */
 .layout-content {
   display: flex;
   flex-direction: column;
 
+
 }
+
+/* eslint-enable no-alert, no-console */
+
 </style>
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";

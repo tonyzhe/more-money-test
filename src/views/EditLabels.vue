@@ -5,11 +5,11 @@
       <span>编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name" filename="标签名" placeholder="请输入标签名" @update:value="updateTagName"/>
+      <FormItem :value="currentTag.name" filename="标签名" placeholder="请输入标签名" @update:value="update"/>
     </div>
 
     <div class="button-wrapper">
-      <Button @click="removeTag()">删除标签</Button>
+      <Button @click="remove()">删除标签</Button>
     </div>
   </layout>
 </template>
@@ -20,42 +20,44 @@ import {Component} from 'vue-property-decorator';
 
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
-import store from '@/store/index2';
+
 
 @Component({
-  components: {Button, FormItem}
+  components: {Button, FormItem},
+  computed: {
+    currentTag() {
+      return this.$store.state.currentTag;
+    }
+  }
+
 })
 export default class EditLabels extends Vue {
-  tag?: { id: string, name: string } = undefined;
 
 
   created(): void {
     const id = this.$route.params.id;
-    const tags = store.tagList;
-    const tag = tags.filter(t => t.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
+    this.$store.commit('fetchTags');
+    this.$store.commit('setCurrentTag', id);
+    console.log(this.currentTag);
+    if (!this.currentTag) {
       this.$router.replace('/404');
-    }
-  }
-
-  updateTagName(value: string): void {
-    if (this.tag) {
-      store.updateTag(this.tag.id, value);
+      console.log(this.$store.state.currentTag);
 
     }
   }
 
-  removeTag(): void {
-    if (this.tag) {
-      if (store.removeTag(this.tag.id)) {
-        this.$router.back();
-      } else {
-        window.alert('删除失败');
-      }
+  update(value: string): void {
+    if (this.currentTag) {
+      this.$store.commit('updateTag', {id: this.currentTag.id, name: value});
 
-    } else return;
+    }
+  }
+
+  remove(): void {
+
+    this.$store.commit('removeTag', this.currentTag.id);
+    window.alert('删除成功');
+    this.$router.back();
   }
 
   goBack(): void {
