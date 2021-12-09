@@ -88,6 +88,17 @@ const store = new Vuex.Store({
     }
   },
   actions: {},
-  modules: {}
+  modules: {},
+  getters: {
+    getCurrentTag: (state) => {
+      return state.currentTag;
+    },
+    getTagList: (state) => {
+      return state.tagList;
+    },
+    getRecordList: (state) => {
+      return state.recordList;
+    }
+  }
 });
 export default store;

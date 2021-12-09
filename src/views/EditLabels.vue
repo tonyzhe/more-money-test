@@ -5,7 +5,7 @@
       <span>编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="currentTag.name" filename="标签名" placeholder="请输入标签名" @update:value="update"/>
+      <FormItem :value="this.getCurrentTag.name" filename="标签名" placeholder="请输入标签名" @update:value="update"/>
     </div>
 
     <div class="button-wrapper">
@@ -17,45 +17,40 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-
+import {Getter} from 'vuex-class';
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
 
 
 @Component({
   components: {Button, FormItem},
-  computed: {
-    currentTag() {
-      return this.$store.state.currentTag;
-    }
-  }
+
 
 })
 export default class EditLabels extends Vue {
-
+  @Getter('getCurrentTag') getCurrentTag;
 
   created(): void {
     const id = this.$route.params.id;
     this.$store.commit('fetchTags');
     this.$store.commit('setCurrentTag', id);
-    console.log(this.currentTag);
-    if (!this.currentTag) {
+    console.log(this.getCurrentTag);
+    if (!this.getCurrentTag) {
       this.$router.replace('/404');
-      console.log(this.$store.state.currentTag);
 
     }
   }
 
   update(value: string): void {
-    if (this.currentTag) {
-      this.$store.commit('updateTag', {id: this.currentTag.id, name: value});
+    if (this.getCurrentTag) {
+      this.$store.commit('updateTag', {id: this.getCurrentTag.id, name: value});
 
     }
   }
 
   remove(): void {
 
-    this.$store.commit('removeTag', this.currentTag.id);
+    this.$store.commit('removeTag', this.getCurrentTag.id);
     window.alert('删除成功');
     this.$router.back();
   }

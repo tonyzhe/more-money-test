@@ -18,6 +18,7 @@
 
 import {Component, Mixins} from 'vue-property-decorator';
 import tagHelper from '@/mixins/tagHelper';
+import {Getter} from 'vuex-class';
 
 
 type Tag = {
@@ -25,16 +26,10 @@ type Tag = {
   name: string
 }
 
-@Component({
-  computed: {
-    tags() {
-      return this.$store.state.tagList;
-    }
-  }
-})
+@Component
 export default class Tags extends Mixins(tagHelper) {
   //require:true则是通知vue该属性必须传值，否则我就报错
-
+  @Getter('getTagList') tags;
   selectedTags: Tag[] = [];
 
   created(): void {

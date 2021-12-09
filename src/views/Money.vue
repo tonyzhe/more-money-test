@@ -17,6 +17,7 @@ import NumberPad from '@/components/Money/NumberPad.vue';
 import FormItem from '@/components/Money/FormItem.vue';
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import {Getter} from 'vuex-class';
 
 
 type Tag = {
@@ -34,14 +35,10 @@ type RecordItem = {
 
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
-  computed: {
-    recordList() {
-      return this.$store.state.recordList;
-    }
-  }
+
 })
 export default class Money extends Vue {
-
+  @Getter('getRecordList') recordList;
   record: RecordItem = {
     tags: [],
     notes: '',
