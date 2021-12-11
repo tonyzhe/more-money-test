@@ -28,13 +28,13 @@ import Button from '@/components/Button.vue';
 
 })
 export default class EditLabels extends Vue {
-  @Getter('getCurrentTag') getCurrentTag;
+  @Getter('getCurrentTag') getCurrentTag: any;//
 
   created(): void {
     const id = this.$route.params.id;
     this.$store.commit('fetchTags');
     this.$store.commit('setCurrentTag', id);
-    console.log(this.getCurrentTag);
+
     if (!this.getCurrentTag) {
       this.$router.replace('/404');
 
@@ -49,10 +49,9 @@ export default class EditLabels extends Vue {
   }
 
   remove(): void {
-
     this.$store.commit('removeTag', this.getCurrentTag.id);
-    window.alert('删除成功');
-    this.$router.back();
+
+
   }
 
   goBack(): void {

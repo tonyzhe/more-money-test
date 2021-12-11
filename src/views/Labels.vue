@@ -29,8 +29,10 @@ import {Getter} from 'vuex-class';
   },
 
 })
+
 export default class Labels extends Mixins(tagHelper) {
-  @Getter('getTagList') tags;
+
+  @Getter('getTagList') tags: any;
 
   beforeCreate(): void {
     this.$store.commit('fetchTags');

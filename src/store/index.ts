@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import createId from '@/lib/createId';
+import router from '@/router';
 
 
 Vue.use(Vuex);//此处等于在Vue.prototype生成了一个$store
@@ -69,7 +70,7 @@ const store = new Vuex.Store({
 
       }
     },
-    removeTag(state, id: string): boolean {
+    removeTag(state, id: string) {
       let index = -1;
       for (let i = 0; i < state.tagList.length; i++) {
         if (state.tagList[i].id === id) {
@@ -79,7 +80,9 @@ const store = new Vuex.Store({
       }
       state.tagList.splice(index, 1);
       store.commit('saveTags');
-      return true;
+      window.alert('删除成功');
+      router.back();
+
     },
 
 

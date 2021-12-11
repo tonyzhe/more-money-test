@@ -38,7 +38,9 @@ type RecordItem = {
 
 })
 export default class Money extends Vue {
-  @Getter('getRecordList') recordList;
+  @Getter('getRecordList') recordList: any;
+
+
   record: RecordItem = {
     tags: [],
     notes: '',

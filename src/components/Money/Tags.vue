@@ -29,7 +29,7 @@ type Tag = {
 @Component
 export default class Tags extends Mixins(tagHelper) {
   //require:true则是通知vue该属性必须传值，否则我就报错
-  @Getter('getTagList') tags;
+  @Getter('getTagList') tags: any;
   selectedTags: Tag[] = [];
 
   created(): void {
