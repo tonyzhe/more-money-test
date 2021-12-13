@@ -33,7 +33,9 @@ export default class Tags extends Mixins(tagHelper) {
   selectedTags: Tag[] = [];
 
   created(): void {
+
     this.$store.commit('fetchTags');
+
   }
 
   toggle(tag: Tag): void {
@@ -44,6 +46,7 @@ export default class Tags extends Mixins(tagHelper) {
     } else {
       this.selectedTags.push(tag);
     }
+
     this.$emit('update:Value', this.selectedTags);
   }
 
