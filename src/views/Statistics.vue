@@ -1,34 +1,70 @@
 <template>
   <layout>
-    <Tabs :data-source="typeList" :value.sync="type" class-prefix="type"></Tabs>
+    <Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"></Tabs>
     <Tabs :data-source="intervalList" :value.sync="interval" class-prefix="interval"></Tabs>
+
+    <ol>
+      <li v-for="(group,index) in result" :key="index">
+        <h3 class="title">{{ group.title }}</h3>
+        <ol>
+          <li v-for="item in group.items" :key="item.createdAt" class="record">
+            <span>{{ tagString(item.tags) }}</span>
+          </li>
+        </ol>
+      </li>
+    </ol>
   </layout>
 
 
 </template>
 
 <script lang="ts">
-import Types from '@/components/Money/Types.vue';
+
 import Tabs from '@/components/Tabs.vue';
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import intervalList from '@/constants/intervalList';
+import recordTypeList from '@/constants/recordTypeList';
+import {RecordItem, Tag} from '@/custom';
+
 
 @Component({
-  components: {Types, Tabs}
+  components: {Tabs}
 })
 export default class Statistics extends Vue {
+  tagString(tags: Tag[]) {
+    return tags.length === 0 ? '无' : tags.join(',');
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  get recordList() {
+    return this.$store.state.recordList;
+  }
+
+  get result() {
+    const {recordList} = this;
+    const hashTable: { [key: string]: { title: string, items: RecordItem[] } } = {};
+    for (let i = 0; i < recordList.length; i++) {
+      const [date, time] = recordList[i].createdAt.split('T');
+      hashTable[date] = hashTable[date] || {title: date, items: []};
+      hashTable[date].items.push(recordList[i]);
+
+    }
+
+
+    return hashTable;
+  }
+
+  mounted() {
+    this.$store.commit('fetchRecords');
+
+
+  }
+
   type = '-';
   interval = 'day';
-  typeList = [
-    {text: '支出', value: '-'},
-    {text: '收入', value: '+'}
-  ];
-  intervalList = [
-    {text: '按天', value: 'day'},
-    {text: '按周', value: 'week'},
-    {text: '按月', value: 'mouth'}
-
-  ];
+  recordTypeList = recordTypeList;
+  intervalList = intervalList;
 
 }
 </script>
@@ -46,8 +82,10 @@ export default class Statistics extends Vue {
   }
 }
 
-::v-deep .interval-tab-item {
+::v-deep li.interval-tab-item {
   background: $light-blue;
+  height: 48px;
+
 
   &.selected {
     position: relative;
@@ -63,5 +101,25 @@ export default class Statistics extends Vue {
     }
   }
 
+}
+
+%item {
+  display: flex;
+  padding: 0 16px;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+}
+
+.title {
+  @extend %item;
+  //background
+
+
+}
+
+.record {
+  @extend %item;
+  background: #fff;
 }
 </style>
