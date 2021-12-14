@@ -1,12 +1,13 @@
 <template>
   <layout>
     <Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"></Tabs>
-    <Tabs :data-source="intervalList" :value.sync="interval" class-prefix="interval"></Tabs>
+
 
     <ol class="list-content">
-      <li v-for="(group,index) in groupList" :key="index">
+      <li v-for="(group,index) in groupList" :key="index" class="titles">
 
-        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <h3 class="title">{{ beautify(group.title) }}<span>¥{{ group.total }}</span></h3>
+
         <ol>
           <li v-for="item in group.items" :key="item.createdAt" class="record">
             <span>{{ tagString(item.tags) }}</span>
@@ -68,10 +69,12 @@ export default class Statistics extends Vue {
     if (recordList.length === 0) {
       return [];
     }
-    const newList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-    console.log(newList);
-    const result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
-    console.log(result);
+    const newList = clone(recordList)
+      .filter(r => r.types === this.type)
+      .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    type Result = { title: string, total?: number, items: RecordItem[] }[]
+    const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+
     for (let i = 1; i < newList.length; i++) {
       const current = newList[i];
       const last = result[result.length - 1];
@@ -81,7 +84,11 @@ export default class Statistics extends Vue {
         result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
       }
     }
-    console.log(result);
+    result.map(group => {
+      group.total = group.items.reduce((sum, item) => {
+        return sum + item.amount;
+      }, 0);
+    });
     return result;
   }
 
@@ -94,7 +101,7 @@ export default class Statistics extends Vue {
   type = '-';
   interval = 'day';
   recordTypeList = recordTypeList;
-  intervalList = intervalList;
+
 
 }
 </script>
@@ -112,26 +119,6 @@ export default class Statistics extends Vue {
   }
 }
 
-::v-deep li.interval-tab-item {
-  background: $light-blue;
-  height: 48px;
-
-
-  &.selected {
-    position: relative;
-
-    &:after {
-      content: '';
-      position: absolute;
-      display: block;
-      width: 100%;
-      height: 4px;
-      bottom: 0;
-      background: #333333;
-    }
-  }
-
-}
 
 %item {
   display: flex;
@@ -141,10 +128,14 @@ export default class Statistics extends Vue {
   min-height: 40px;
 }
 
+.total {
+  float: right;
+}
+
 .title {
   @extend %item;
   //background
-
+  display: flex;
 
 }
 
