@@ -3,7 +3,7 @@
   <Layout class-prefix="layout">
     <Tags @update:Value="onUpdateTags"/>
     <div class="FormItem-wrapper">
-      <FormItem @update:value="onUpdateValue" filename="备注" placeholder="请输入具体内容"/>
+      <FormItem @update:value="onUpdateValue" filename="备注" placeholder="请输入具体内容" :value.sync="record.notes"/>
     </div>
     <Tabs :data-source="recordTypeList
 " :value.sync="record.types" class-prefix="moneyType"/>
@@ -67,6 +67,8 @@ export default class Money extends Vue {
 
   saveRecord(): void {
     this.$store.commit('createRecord', this.record);
+    window.alert('保存成功');
+    this.record.notes = '';
   }
 
 

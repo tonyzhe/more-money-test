@@ -3,7 +3,7 @@
     <Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"></Tabs>
 
 
-    <ol class="list-content">
+    <ol class="list-content" v-if="groupList.length>0">
       <li v-for="(group,index) in groupList" :key="index" class="titles">
 
         <h3 class="title">{{ beautify(group.title) }}<span>¥{{ group.total }}</span></h3>
@@ -17,6 +17,10 @@
         </ol>
       </li>
     </ol>
+    <div class="ifNoRecord" v-else>
+      <span>目前没有相关记录</span>
+      <h3>记一笔哟</h3>
+    </div>
   </layout>
 
 
@@ -27,7 +31,7 @@
 import Tabs from '@/components/Tabs.vue';
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import intervalList from '@/constants/intervalList';
+
 import recordTypeList from '@/constants/recordTypeList';
 import {RecordItem, Tag} from '@/custom';
 import dayjs from 'dayjs';
@@ -38,11 +42,14 @@ import clone from '@/lib/clone';
   components: {Tabs}
 })
 export default class Statistics extends Vue {
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   tagString(tags: Tag[]) {
     const tagName = tags.map(item => item.name);
     return tags.length === 0 ? '无' : tagName.join('&');
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   beautify(string: string) {
     const day = dayjs(string);//使用字符串打印当天的信息
     const now = dayjs();
@@ -64,14 +71,16 @@ export default class Statistics extends Vue {
     return this.$store.state.recordList;
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   get groupList() {
     const {recordList} = this;
-    if (recordList.length === 0) {
-      return [];
-    }
+
     const newList = clone(recordList)
       .filter(r => r.types === this.type)
       .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    if (newList.length === 0) {
+      return [];
+    }
     type Result = { title: string, total?: number, items: RecordItem[] }[]
     const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
 
@@ -92,6 +101,7 @@ export default class Statistics extends Vue {
     return result;
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   mounted() {
     this.$store.commit('fetchRecords');
 
@@ -149,5 +159,16 @@ export default class Statistics extends Vue {
   margin-left: 20px;
 }
 
+.ifNoRecord {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
 
 </style>

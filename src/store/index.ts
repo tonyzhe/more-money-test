@@ -11,6 +11,7 @@ Vue.use(Vuex);//此处等于在Vue.prototype生成了一个$store
 const store = new Vuex.Store({
   state: {
     recordList: [] as RecordItem[],
+    creatTagError: null,
     tagList: [] as Tag[],
     currentTag: undefined
   } as RootState,
@@ -23,7 +24,7 @@ const store = new Vuex.Store({
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');
-      
+
     },
     saveRecords(state): void {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
@@ -34,18 +35,29 @@ const store = new Vuex.Store({
       state.currentTag = state.tagList.filter(item => item.id === id)[0];
     },
     fetchTags(state) {
-      return state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]') as Tag[];
+      state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]') as Tag[];
+      if (!state.tagList || state.tagList.length === 0) {
+        store.commit('createTag', '衣');
+        store.commit('createTag', '食');
+        store.commit('createTag', '住');
+        store.commit('createTag', '行');
+      }
+
     },
     createTag(state, name: string) {
+      state.creatTagError = null;
       const names = state.tagList.map(item => item.name);
       if (names.indexOf(name) >= 0) {
-        window.alert('标签名重复了');
+        state.creatTagError = new Error('tag name duplicated');
+        return;
 
       }
       const id = createId().toString();
       state.tagList.push({id, name: name});
       store.commit('saveTags');
-      window.alert('添加成功');
+
+
+      // window.alert('添加成功');
 
 
     },

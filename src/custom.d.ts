@@ -13,6 +13,7 @@ export interface Tag {
 
 export interface RootState {
   recordList: RecordItem[],
+  creatTagError: Error | null,
   tagList: Tag[],
   currentTag?: Tag
 }
